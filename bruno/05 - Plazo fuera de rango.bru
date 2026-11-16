@@ -1,0 +1,34 @@
+meta {
+  name: 05 - Plazo fuera de rango
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8081/api/v1/solicitud
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "documento_identidad": "1023456789",
+    "monto": 5000000,
+    "plazo_meses": 0,
+    "id_tipo_prestamo": 2
+  }
+}
+
+tests {
+  test("responde 400 Bad Request", function () {
+    expect(res.getStatus()).to.equal(400);
+  });
+
+  test("explica el rango del plazo", function () {
+    expect(res.getBody().error).to.equal("El plazo debe estar entre 1 y 360 meses");
+  });
+}
+
+docs {
+  Criterio: se valida la información del préstamo (plazo en meses). Esperado: 400.
+}

@@ -1,0 +1,41 @@
+meta {
+  name: 01 - Registrar solicitud exitosa
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8081/api/v1/solicitud
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "documento_identidad": "1023456789",
+    "monto": 5000000,
+    "plazo_meses": 24,
+    "id_tipo_prestamo": 1
+  }
+}
+
+tests {
+  test("responde 201 Created", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("queda en estado Pendiente de revisión", function () {
+    expect(res.getBody().estado).to.equal("Pendiente de revisión");
+  });
+
+  test("devuelve id y tipo de préstamo", function () {
+    const body = res.getBody();
+    expect(body.id).to.be.a("number");
+    expect(body.tipo_prestamo).to.equal("Libre inversión");
+  });
+}
+
+docs {
+  Criterios: se puede enviar una solicitud con documento, monto, plazo y tipo de préstamo,
+  y se registra automáticamente con estado "Pendiente de revisión". Esperado: 201.
+}

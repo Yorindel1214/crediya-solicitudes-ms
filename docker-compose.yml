@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:16
+    container_name: postgres_solicitudes
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: crediya_solicitudes
+    ports:
+      - "5434:5432"   # 5434 en tu PC (el 5433 lo usa la base de Autenticación)
+    volumes:
+      - pgdata_solicitudes:/var/lib/postgresql/data
+      # Se ejecuta solo la primera vez que se crea la base: tablas + tipos de préstamo
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+volumes:
+  pgdata_solicitudes:
