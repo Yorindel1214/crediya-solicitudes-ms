@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crediya · Solicitar préstamo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div class="contenedor cabecera__fila">
+      <a class="marca" href="index.html">
+        <svg viewBox="0 0 40 40" aria-hidden="true">
+          <rect width="40" height="40" rx="12" fill="#0d7a6f"/>
+          <path d="M26.5 14.2a8.5 8.5 0 1 0 0 11.6" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/>
+          <circle cx="27.5" cy="20" r="2.6" fill="#f2a93b"/>
+        </svg>
+        Crediya
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="index.html">Inicio</a>
+        <a class="activo" href="solicitar.html">Solicitar préstamo</a>
+        <a href="http://localhost:8000" target="_blank" rel="noopener">Usuarios ↗</a>
+      </nav>
+      <span class="estado-api" id="estadoApi">
+        <span class="estado-api__punto"></span>
+        <span class="estado-api__texto">Verificando API…</span>
+      </span>
+    </div>
+  </header>
+
+  <main class="contenedor pagina">
+    <a class="volver" href="index.html">← Volver al inicio</a>
+
+    <div class="pagina__encabezado">
+      <span class="etiqueta">HU2 · <span class="codigo">POST /api/v1/solicitud</span></span>
+      <h1>Solicitar préstamo</h1>
+      <p>Completa tu información y la del préstamo. Todos los campos son obligatorios.</p>
+    </div>
+
+    <div class="registro">
+      <section class="panel">
+        <!-- Aquí se muestra el resultado: éxito o el mensaje de error que devuelve la API -->
+        <div id="mensaje" role="status" aria-live="polite"></div>
+
+        <!-- Resultado de una solicitud registrada (se muestra solo cuando la API responde 201) -->
+        <div id="resultado" hidden>
+          <div class="resultado__cabeza">
+            <div class="avatar" id="numeroSolicitud"></div>
+            <div>
+              <h2 id="tituloResultado"></h2>
+              <p><span class="insignia insignia--pendiente" id="estadoResultado"></span></p>
+            </div>
+          </div>
+          <dl class="resumen" id="resumen"></dl>
+          <div class="resultado__acciones">
+            <button type="button" class="boton" id="otraSolicitud">Enviar otra solicitud</button>
+            <a class="boton boton--fantasma" href="index.html">Ir al inicio</a>
+          </div>
+        </div>
+
+        <!-- novalidate: las validaciones las hace la API y aquí mostramos su mensaje -->
+        <form id="formulario" novalidate>
+          <fieldset class="grupo">
+            <legend><span class="paso">1</span> Tus datos</legend>
+            <div class="campos">
+              <div class="campo campo--ancho">
+                <label for="documento_identidad">Documento de identidad</label>
+                <input id="documento_identidad" name="documento_identidad" type="text" inputmode="numeric" placeholder="1023456789" autocomplete="off">
+                <small>Solo números, entre 6 y 15 dígitos</small>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="grupo">
+            <legend><span class="paso">2</span> El préstamo</legend>
+            <div class="campos">
+              <div class="campo">
+                <label for="monto">Monto</label>
+                <div class="con-prefijo">
+                  <span>$</span>
+                  <input id="monto" name="monto" type="number" min="1" step="1" placeholder="5000000">
+                </div>
+                <small id="montoAyuda">Mayor que $0</small>
+              </div>
+              <div class="campo">
+                <label for="plazo_meses">Plazo (meses)</label>
+                <input id="plazo_meses" name="plazo_meses" type="number" min="1" max="360" step="1" placeholder="24">
+                <small id="plazoAyuda">Entre 1 y 360 meses</small>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="grupo">
+            <legend><span class="paso">3</span> Tipo de préstamo</legend>
+            <!-- Los ids coinciden con la tabla tipos_prestamo (db/init.sql) -->
+            <div class="tipos" id="tipos" role="radiogroup" aria-label="Tipo de préstamo">
+              <label class="tipo">
+                <input type="radio" name="id_tipo_prestamo" value="1">
+                <span class="tipo__icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.5c-.5-1-1.5-1.5-2.5-1.5-1.5 0-2.5.8-2.5 2s1 1.7 2.5 2 2.5.8 2.5 2-1 2-2.5 2c-1 0-2-.5-2.5-1.5M12 6.5V8m0 8v1.5"/></svg></span>
+                <span><span class="tipo__nombre">Libre inversión</span><span class="tipo__desc">Para cualquier propósito personal</span></span>
+              </label>
+              <label class="tipo">
+                <input type="radio" name="id_tipo_prestamo" value="2">
+                <span class="tipo__icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6 17v2M18 17v2M4 13l2-6h12l2 6v4H4z"/><circle cx="8" cy="14" r="1"/><circle cx="16" cy="14" r="1"/></svg></span>
+                <span><span class="tipo__nombre">Vehículo</span><span class="tipo__desc">Compra de carro o moto</span></span>
+              </label>
+              <label class="tipo">
+                <input type="radio" name="id_tipo_prestamo" value="3">
+                <span class="tipo__icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></span>
+                <span><span class="tipo__nombre">Vivienda</span><span class="tipo__desc">Compra o mejora de vivienda</span></span>
+              </label>
+              <label class="tipo">
+                <input type="radio" name="id_tipo_prestamo" value="4">
+                <span class="tipo__icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></span>
+                <span><span class="tipo__nombre">Educación</span><span class="tipo__desc">Matrículas y estudios</span></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="formulario__acciones">
+            <a class="boton boton--fantasma" href="index.html">Cancelar</a>
+            <button type="submit" class="boton" id="botonEnviar">Enviar solicitud</button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="lateral">
+        <div class="panel">
+          <h2>Antes de enviar</h2>
+          <ul class="lista-check">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>El documento lleva solo números (6 a 15 dígitos).</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>El monto debe ser mayor que $0.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>El plazo va de 1 a 360 meses.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Tu solicitud quedará "Pendiente de revisión".</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h2>Respuestas de la API</h2>
+          <ul class="respuestas">
+            <li><span class="cod cod--201">201</span>Solicitud registrada</li>
+            <li><span class="cod cod--400">400</span>Datos inválidos o tipo de préstamo inexistente</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <span>Crediya · Microservicio de solicitudes</span>
+      <span>Historia de usuario 2</span>
+    </div>
+  </footer>
+
+  <script src="js/comun.js"></script>
+  <script src="js/solicitar.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crediya · Solicitudes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div class="contenedor cabecera__fila">
+      <a class="marca" href="index.html">
+        <svg viewBox="0 0 40 40" aria-hidden="true">
+          <rect width="40" height="40" rx="12" fill="#0d7a6f"/>
+          <path d="M26.5 14.2a8.5 8.5 0 1 0 0 11.6" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/>
+          <circle cx="27.5" cy="20" r="2.6" fill="#f2a93b"/>
+        </svg>
+        Crediya
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a class="activo" href="index.html">Inicio</a>
+        <a href="solicitar.html">Solicitar préstamo</a>
+        <a href="http://localhost:8000" target="_blank" rel="noopener">Usuarios ↗</a>
+      </nav>
+      <span class="estado-api" id="estadoApi">
+        <span class="estado-api__punto"></span>
+        <span class="estado-api__texto">Verificando API…</span>
+      </span>
+    </div>
+  </header>
+
+  <main>
+    <section class="contenedor hero">
+      <div>
+        <span class="etiqueta">Historia de usuario 2</span>
+        <h1>Solicita tu <span>préstamo</span> en minutos</h1>
+        <p>
+          Envía el monto, el plazo y el tipo de préstamo que necesitas. Tu solicitud queda
+          registrada de inmediato y pasa a revisión del equipo de CrediYa.
+        </p>
+        <div class="hero__acciones">
+          <a class="boton" href="solicitar.html">Solicitar préstamo <span aria-hidden="true">→</span></a>
+          <a class="boton boton--fantasma" href="http://localhost:8081/swagger-ui.html" target="_blank" rel="noopener">Ver documentación API</a>
+        </div>
+      </div>
+
+      <!-- Tarjeta de ejemplo: muestra cómo queda una solicitud registrada -->
+      <div class="hero__visual" aria-hidden="true">
+        <div class="ficha">
+          <div class="ficha__cabeza">
+            <div class="avatar">#12</div>
+            <div>
+              <p class="ficha__nombre">Libre inversión</p>
+              <p class="ficha__correo">Documento 1023456789</p>
+            </div>
+          </div>
+          <dl class="ficha__datos">
+            <div><dt>Monto</dt><dd>$ 5.000.000</dd></div>
+            <div><dt>Plazo</dt><dd>24 meses</dd></div>
+            <div><dt>Fecha</dt><dd>16/11/2026</dd></div>
+            <div><dt>Estado</dt><dd><span class="insignia insignia--pendiente">Pendiente</span></dd></div>
+          </dl>
+        </div>
+        <span class="chip-flotante chip-flotante--arriba">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          201 · Registrada
+        </span>
+        <span class="chip-flotante chip-flotante--abajo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0d7a6f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          En revisión
+        </span>
+      </div>
+    </section>
+
+    <section class="contenedor seccion">
+      <h2 class="seccion__titulo">¿Qué quieres hacer?</h2>
+      <p class="seccion__texto">Acciones disponibles en esta historia de usuario.</p>
+
+      <div class="acciones">
+        <a class="accion accion--principal" href="solicitar.html">
+          <span class="accion__icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg>
+          </span>
+          <h3>Solicitar préstamo</h3>
+          <p>Envía tu documento, el monto, el plazo y el tipo de préstamo que quieres.</p>
+          <span class="accion__enlace">Comenzar →</span>
+        </a>
+
+        <a class="accion" href="http://localhost:8081/swagger-ui.html" target="_blank" rel="noopener">
+          <span class="accion__icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+          </span>
+          <h3>Documentación de la API</h3>
+          <p>Consulta el endpoint de solicitudes en Swagger, con ejemplos y respuestas.</p>
+          <span class="accion__enlace">Abrir Swagger ↗</span>
+        </a>
+
+        <a class="accion" href="http://localhost:8000" target="_blank" rel="noopener">
+          <span class="accion__icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+          </span>
+          <h3>Registro de usuarios</h3>
+          <p>La página de la Historia 1, en el microservicio de Autenticación.</p>
+          <span class="accion__enlace">Ir a usuarios ↗</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="contenedor seccion">
+      <h2 class="seccion__titulo">Reglas que valida el sistema</h2>
+      <p class="seccion__texto">Los criterios de aceptación de la historia, aplicados en cada solicitud.</p>
+
+      <ul class="reglas">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
+          <div><strong>Documento válido</strong><span>Solo números, entre 6 y 15 dígitos.</span></div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
+          <div><strong>Monto y plazo</strong><span>Monto mayor que $0 y plazo entre 1 y 360 meses.</span></div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
+          <div><strong>Tipo de préstamo existente</strong><span>Debe ser uno de los tipos que ofrece CrediYa.</span></div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
+          <div><strong>Estado inicial</strong><span>Toda solicitud nueva queda "Pendiente de revisión".</span></div>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <span>Crediya · Microservicio de solicitudes</span>
+      <span>Historia de usuario 2</span>
+    </div>
+  </footer>
+
+  <script src="js/comun.js"></script>
+</body>
+</html>

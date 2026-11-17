@@ -27,4 +27,4 @@ management:
       probes:
         enabled: true
 cors:
-  allowed-origins: "http://localhost:4200,http://localhost:8081,http://localhost:8000"
+  allowed-origins: "http://localhost:4200,http://localhost:8081,http://localhost:8000,http://localhost:8001"
