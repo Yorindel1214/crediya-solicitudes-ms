@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,11 +24,21 @@ public class TipoPrestamoRepositoryAdapter implements TipoPrestamoRepository {
     @Transactional(readOnly = true)
     public Optional<TipoPrestamo> buscarPorId(Long id) {
         log.info("Buscando tipo de préstamo con id {}", id);
-        return repository.findById(id)
-                .map(e -> TipoPrestamo.builder()
-                        .id(e.getId())
-                        .nombre(e.getNombre())
-                        .descripcion(e.getDescripcion())
-                        .build());
+        return repository.findById(id).map(this::aDominio);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TipoPrestamo> buscarTodos() {
+        return repository.findAll().stream().map(this::aDominio).toList();
+    }
+
+    private TipoPrestamo aDominio(TipoPrestamoEntity e) {
+        return TipoPrestamo.builder()
+                .id(e.getId())
+                .nombre(e.getNombre())
+                .descripcion(e.getDescripcion())
+                .tasaInteres(e.getTasaInteres())
+                .build();
     }
 }

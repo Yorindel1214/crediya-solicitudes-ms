@@ -1120,3 +1120,15 @@ main {
 /* HU3: usuario conectado en la cabecera */
 .sesion-usuario { display: inline-flex; align-items: center; gap: .5rem; font-size: .85rem; color: inherit; }
 .boton--mini { padding: .3rem .75rem; font-size: .8rem; }
+
+/* HU4: listado para revisión */
+.filtros { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; align-items: end; margin-bottom: 1.25rem; }
+.filtros select, .filtros input { width: 100%; font: inherit; padding: .6rem .75rem; border-radius: 10px; border: 1px solid #d5dbe1; background: #fff; }
+.tabla-contenedor { overflow-x: auto; }
+.tabla { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.tabla th, .tabla td { padding: .65rem .6rem; border-bottom: 1px solid #e6eaee; text-align: left; vertical-align: top; }
+.tabla th { font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; color: #5b6670; }
+.tabla .num { text-align: right; white-space: nowrap; }
+.tabla small { color: #5b6670; }
+.tabla .vacio { text-align: center; color: #5b6670; padding: 2rem; }
+.paginacion { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1rem; font-size: .9rem; }

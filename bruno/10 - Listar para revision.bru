@@ -1,0 +1,44 @@
+meta {
+  name: 10 - Listar para revision
+  type: http
+  seq: 13
+}
+
+get {
+  url: http://localhost:8081/api/v1/solicitud?email={{correoCliente}}&pagina=0&tamano=10
+  body: none
+  auth: bearer
+}
+
+params:query {
+  email: {{correoCliente}}
+  pagina: 0
+  tamano: 10
+}
+
+auth:bearer {
+  token: {{tokenAsesor}}
+}
+
+tests {
+  test("responde 200 OK", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("trae la página con los datos que pide la HU4", function () {
+    const body = res.getBody();
+    expect(body.total_elementos).to.be.at.least(1);
+    const s = body.contenido[0];
+    ["monto", "plazo", "email", "nombre", "tipo_prestamo", "tasa_interes", "estado_solicitud",
+     "salario_base", "deuda_total_mensual_solicitudes_aprobadas"].forEach((campo) => {
+      expect(s).to.have.property(campo);
+    });
+    expect(s.nombre).to.equal("Carlos Cliente");
+  });
+}
+
+docs {
+  HU4: el asesor ve las solicitudes Pendientes de revisión, Rechazadas y en Revisión manual,
+  paginadas y filtrables (estado, email, id_tipo_prestamo). Nombre y salario salen del
+  microservicio de Autenticación. Esperado: 200.
+}

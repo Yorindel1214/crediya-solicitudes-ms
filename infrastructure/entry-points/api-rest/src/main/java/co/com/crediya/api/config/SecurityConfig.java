@@ -29,6 +29,7 @@ import java.nio.charset.StandardCharsets;
  * HU3: este microservicio NO inicia sesión; solo valida el JWT que emite el microservicio de
  * Autenticación (mismo secreto jwt.secreto) y aplica las reglas por rol:
  * - POST /api/v1/solicitud solo para CLIENTE.
+ * - GET /api/v1/solicitud solo para ASESOR (HU4).
  * - Todo lo demás exige un token válido.
  */
 @Slf4j
@@ -53,6 +54,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(RUTAS_PUBLICAS).permitAll()
                         .requestMatchers(HttpMethod.POST, RUTA_SOLICITUD).hasRole("CLIENTE")
+                        // HU4: solo el asesor ve el listado para revisión manual
+                        .requestMatchers(HttpMethod.GET, RUTA_SOLICITUD).hasRole("ASESOR")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth -> oauth
                         .jwt(jwt -> jwt.decoder(jwtDecoder).jwtAuthenticationConverter(convertidorDeRoles()))

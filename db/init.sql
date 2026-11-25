@@ -4,16 +4,17 @@
 -- Catálogo de tipos de préstamo que ofrece CrediYa.
 -- La HU2 exige que la solicitud use uno de estos tipos.
 CREATE TABLE IF NOT EXISTS tipos_prestamo (
-    id          BIGSERIAL    PRIMARY KEY,
-    nombre      VARCHAR(100) NOT NULL UNIQUE,
-    descripcion VARCHAR(255)
+    id           BIGSERIAL    PRIMARY KEY,
+    nombre       VARCHAR(100) NOT NULL UNIQUE,
+    descripcion  VARCHAR(255),
+    tasa_interes NUMERIC(5,2)              -- HU4: tasa nominal anual en %
 );
 
-INSERT INTO tipos_prestamo (nombre, descripcion) VALUES
-    ('Libre inversión', 'Para cualquier propósito personal'),
-    ('Vehículo',        'Compra de carro o moto'),
-    ('Vivienda',        'Compra o mejora de vivienda'),
-    ('Educación',       'Matrículas y estudios')
+INSERT INTO tipos_prestamo (nombre, descripcion, tasa_interes) VALUES
+    ('Libre inversión', 'Para cualquier propósito personal', 24.00),
+    ('Vehículo',        'Compra de carro o moto',            16.50),
+    ('Vivienda',        'Compra o mejora de vivienda',       12.00),
+    ('Educación',       'Matrículas y estudios',             10.00)
 ON CONFLICT (nombre) DO NOTHING;
 
 -- Solicitudes de préstamo enviadas por los clientes.

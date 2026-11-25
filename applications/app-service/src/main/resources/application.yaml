@@ -31,3 +31,6 @@ cors:
 # HU3: mismo secreto que el microservicio de Autenticación, para validar sus tokens
 jwt:
   secreto: "${JWT_SECRETO:crediya-secreto-de-desarrollo-cambiar-en-produccion-2026}"
+# HU4: microservicio de Autenticación, de donde salen nombre y salario base de los clientes
+autenticacion:
+  url: "${AUTENTICACION_URL:http://localhost:8080}"

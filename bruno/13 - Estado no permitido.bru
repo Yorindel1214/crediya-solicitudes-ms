@@ -1,0 +1,29 @@
+meta {
+  name: 13 - Estado no permitido
+  type: http
+  seq: 16
+}
+
+get {
+  url: http://localhost:8081/api/v1/solicitud?estado=APROBADA
+  body: none
+  auth: bearer
+}
+
+params:query {
+  estado: APROBADA
+}
+
+auth:bearer {
+  token: {{tokenAsesor}}
+}
+
+tests {
+  test("responde 400 Bad Request", function () {
+    expect(res.getStatus()).to.equal(400);
+  });
+}
+
+docs {
+  HU4: el listado es solo de solicitudes que esperan decisión; las aprobadas no se listan. Esperado: 400.
+}

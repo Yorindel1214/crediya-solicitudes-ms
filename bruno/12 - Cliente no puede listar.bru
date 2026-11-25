@@ -1,0 +1,25 @@
+meta {
+  name: 12 - Cliente no puede listar
+  type: http
+  seq: 15
+}
+
+get {
+  url: http://localhost:8081/api/v1/solicitud
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{tokenCliente}}
+}
+
+tests {
+  test("responde 403 Forbidden", function () {
+    expect(res.getStatus()).to.equal(403);
+  });
+}
+
+docs {
+  HU4: solo el rol ASESOR puede usar este endpoint. Esperado: 403.
+}

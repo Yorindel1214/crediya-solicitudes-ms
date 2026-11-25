@@ -1,7 +1,11 @@
 package co.com.crediya.usecase.registrarsolicitud;
 
+import co.com.crediya.model.comun.Pagina;
 import co.com.crediya.model.solicitud.EstadoSolicitud;
+import co.com.crediya.model.solicitud.FiltroSolicitudes;
 import co.com.crediya.model.solicitud.Solicitud;
+import co.com.crediya.model.solicitud.gateways.SolicitudRepository;
+import co.com.crediya.model.tipoprestamo.gateways.TipoPrestamoRepository;
 import co.com.crediya.model.solicitud.exceptions.AccesoDenegadoException;
 import co.com.crediya.model.solicitud.exceptions.TipoPrestamoNoExisteException;
 import co.com.crediya.model.solicitud.exceptions.ValidacionException;
@@ -11,8 +15,10 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -28,15 +34,37 @@ class RegistrarSolicitudUseCaseTest {
 
     @BeforeEach
     void setUp() {
+        TipoPrestamo libre = TipoPrestamo.builder().id(1L).nombre("Libre inversión").build();
         useCase = new RegistrarSolicitudUseCase(
-                solicitud -> {
-                    Solicitud conId = solicitud.toBuilder().id((long) guardadas.size() + 1).build();
-                    guardadas.add(conId);
-                    return conId;
+                new SolicitudRepository() {
+                    @Override
+                    public Solicitud guardar(Solicitud solicitud) {
+                        Solicitud conId = solicitud.toBuilder().id((long) guardadas.size() + 1).build();
+                        guardadas.add(conId);
+                        return conId;
+                    }
+
+                    @Override
+                    public Pagina<Solicitud> buscarPagina(FiltroSolicitudes filtro, Set<EstadoSolicitud> estados) {
+                        return new Pagina<>(List.of(), 0, 10, 0);
+                    }
+
+                    @Override
+                    public List<Solicitud> buscarPorEmailsYEstado(Collection<String> emails, EstadoSolicitud estado) {
+                        return List.of();
+                    }
                 },
-                id -> id == 1L
-                        ? Optional.of(TipoPrestamo.builder().id(1L).nombre("Libre inversión").build())
-                        : Optional.empty());
+                new TipoPrestamoRepository() {
+                    @Override
+                    public Optional<TipoPrestamo> buscarPorId(Long id) {
+                        return id == 1L ? Optional.of(libre) : Optional.empty();
+                    }
+
+                    @Override
+                    public List<TipoPrestamo> buscarTodos() {
+                        return List.of(libre);
+                    }
+                });
     }
 
     private Solicitud.SolicitudBuilder valida() {

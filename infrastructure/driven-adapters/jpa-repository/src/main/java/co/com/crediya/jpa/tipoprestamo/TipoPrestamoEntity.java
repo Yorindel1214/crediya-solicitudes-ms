@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 /**
  * Cómo se guarda un tipo de préstamo en la tabla "tipos_prestamo" (cargada desde db/init.sql).
  */
@@ -30,4 +32,8 @@ public class TipoPrestamoEntity {
     private String nombre;
 
     private String descripcion;
+
+    /** HU4: tasa nominal anual en porcentaje. */
+    @Column(name = "tasa_interes", precision = 5, scale = 2)
+    private BigDecimal tasaInteres;
 }

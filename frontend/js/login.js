@@ -4,7 +4,7 @@ const boton = document.getElementById("botonLogin");
 const mensaje = document.getElementById("mensaje");
 
 // Página a la que va cada rol después de iniciar sesión
-const INICIO_POR_ROL = { CLIENTE: "solicitar.html" };
+const INICIO_POR_ROL = { CLIENTE: "solicitar.html", ASESOR: "revision.html" };
 
 function mostrarError(texto) {
   mensaje.innerHTML = "";

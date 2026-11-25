@@ -1,6 +1,8 @@
 package co.com.crediya.api;
 
 import co.com.crediya.model.solicitud.exceptions.AccesoDenegadoException;
+import co.com.crediya.model.solicitud.exceptions.ServicioNoDisponibleException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import co.com.crediya.model.solicitud.exceptions.TipoPrestamoNoExisteException;
 import co.com.crediya.model.solicitud.exceptions.ValidacionException;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +40,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> accesoDenegado(AccesoDenegadoException e) {
         log.warn("Acceso denegado: {}", e.getMessage());
         return respuesta(HttpStatus.FORBIDDEN, e.getMessage());
+    }
+
+    @ExceptionHandler(ServicioNoDisponibleException.class)
+    public ResponseEntity<Map<String, String>> servicioNoDisponible(ServicioNoDisponibleException e) {
+        log.error("Servicio externo no disponible: {}", e.getMessage());
+        return respuesta(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Map<String, String>> parametroInvalido(MethodArgumentTypeMismatchException e) {
+        log.warn("Parámetro con formato inválido: {}={}", e.getName(), e.getValue());
+        return respuesta(HttpStatus.BAD_REQUEST, "El parámetro " + e.getName() + " tiene un formato inválido");
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

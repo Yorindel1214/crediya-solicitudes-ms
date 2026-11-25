@@ -1,0 +1,29 @@
+meta {
+  name: 09 - Login asesor
+  type: http
+  seq: 12
+}
+
+post {
+  url: http://localhost:8080/api/v1/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "correo_electronico": "{{correoAsesor}}",
+    "clave": "Asesor12345"
+  }
+}
+
+script:post-response {
+  bru.setVar("tokenAsesor", res.getBody().token);
+}
+
+tests {
+  test("responde 200 con rol ASESOR", function () {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.getBody().rol).to.equal("ASESOR");
+  });
+}

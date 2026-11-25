@@ -2,6 +2,7 @@ package co.com.crediya.model.tipoprestamo.gateways;
 
 import co.com.crediya.model.tipoprestamo.TipoPrestamo;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -10,4 +11,6 @@ import java.util.Optional;
  */
 public interface TipoPrestamoRepository {
     Optional<TipoPrestamo> buscarPorId(Long id);
+    // HU4: el catálogo completo (son pocos) para mostrar nombre y tasa en el listado
+    List<TipoPrestamo> buscarTodos();
 }

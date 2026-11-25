@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crediya · Revisión de solicitudes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div class="contenedor cabecera__fila">
+      <a class="marca" href="index.html">
+        <svg viewBox="0 0 40 40" aria-hidden="true">
+          <rect width="40" height="40" rx="12" fill="#0d7a6f"/>
+          <path d="M26.5 14.2a8.5 8.5 0 1 0 0 11.6" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/>
+          <circle cx="27.5" cy="20" r="2.6" fill="#f2a93b"/>
+        </svg>
+        Crediya
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="index.html">Inicio</a>
+        <a href="solicitar.html">Solicitar préstamo</a>
+        <a class="activo" href="revision.html">Revisión</a>
+      </nav>
+      <span class="sesion-usuario" id="usuarioSesion"></span>
+      <span class="estado-api" id="estadoApi">
+        <span class="estado-api__punto"></span>
+        <span class="estado-api__texto">Verificando API…</span>
+      </span>
+    </div>
+  </header>
+
+  <main class="contenedor pagina">
+    <div class="pagina__encabezado">
+      <span class="etiqueta">HU4 · <span class="codigo">GET /api/v1/solicitud</span> · solo ASESOR</span>
+      <h1>Solicitudes para revisión manual</h1>
+      <p>Solicitudes pendientes de tu decisión: <strong>Pendiente de revisión</strong>, <strong>Rechazada</strong> y <strong>Revisión manual</strong>.</p>
+    </div>
+
+    <section class="panel">
+      <div id="mensaje" role="status" aria-live="polite"></div>
+
+      <form id="filtros" class="filtros" novalidate>
+        <div class="campo">
+          <label for="estado">Estado</label>
+          <select id="estado">
+            <option value="">Todos los de revisión</option>
+            <option value="PENDIENTE_REVISION">Pendiente de revisión</option>
+            <option value="REVISION_MANUAL">Revisión manual</option>
+            <option value="RECHAZADA">Rechazada</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="email">Email del cliente</label>
+          <input id="email" type="email" placeholder="cliente@correo.com">
+        </div>
+        <div class="campo">
+          <label for="tipo">Tipo de préstamo</label>
+          <select id="tipo">
+            <option value="">Todos</option>
+            <option value="1">Libre inversión</option>
+            <option value="2">Vehículo</option>
+            <option value="3">Vivienda</option>
+            <option value="4">Educación</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="tamano">Por página</label>
+          <select id="tamano">
+            <option>5</option>
+            <option selected>10</option>
+            <option>20</option>
+            <option>50</option>
+          </select>
+        </div>
+        <div class="filtros__acciones">
+          <button type="submit" class="boton">Filtrar</button>
+        </div>
+      </form>
+
+      <div class="tabla-contenedor">
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Cliente</th>
+              <th>Tipo</th>
+              <th class="num">Monto</th>
+              <th class="num">Plazo</th>
+              <th class="num">Tasa anual</th>
+              <th>Estado</th>
+              <th class="num">Salario base</th>
+              <th class="num">Deuda mensual aprobada</th>
+            </tr>
+          </thead>
+          <tbody id="filas">
+            <tr><td colspan="9" class="vacio">Cargando…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="paginacion">
+        <button type="button" class="boton boton--fantasma boton--mini" id="anterior">← Anterior</button>
+        <span id="infoPagina"></span>
+        <button type="button" class="boton boton--fantasma boton--mini" id="siguiente">Siguiente →</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <span>Crediya · Microservicio de solicitudes</span>
+      <span>Historia de usuario 4</span>
+    </div>
+  </footer>
+
+  <script src="js/comun.js"></script>
+  <script src="js/sesion.js"></script>
+  <script src="js/revision.js"></script>
+</body>
+</html>
