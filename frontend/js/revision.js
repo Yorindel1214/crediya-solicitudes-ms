@@ -1,7 +1,7 @@
 // HU4: listado paginado y filtrable de solicitudes para el asesor (API_BASE viene de comun.js)
 const API_URL = `${API_BASE}/api/v1/solicitud`;
 
-requerirSesion(["ASESOR"]);
+const sesionAsesor = requerirSesion(["ASESOR"]);
 
 const filas = document.getElementById("filas");
 const mensaje = document.getElementById("mensaje");
@@ -102,4 +102,5 @@ document.getElementById("filtros").addEventListener("submit", (evento) => {
 anterior.addEventListener("click", () => cargar(paginaActual - 1));
 siguiente.addEventListener("click", () => cargar(paginaActual + 1));
 
-cargar(0);
+// Solo consulta la API si quien entró es asesor
+if (sesionAsesor) cargar(0);
