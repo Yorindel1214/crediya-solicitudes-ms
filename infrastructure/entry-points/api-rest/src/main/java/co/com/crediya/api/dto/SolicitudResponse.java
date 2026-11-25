@@ -12,6 +12,8 @@ public record SolicitudResponse(
         Long id,
         @Schema(description = "Documento de identidad del cliente", example = "1023456789")
         @JsonProperty("documento_identidad") String documentoIdentidad,
+        @Schema(description = "Correo del cliente que creó la solicitud", example = "carlos@correo.com")
+        String email,
         @Schema(description = "Monto solicitado", example = "5000000")
         BigDecimal monto,
         @Schema(description = "Plazo en meses", example = "24")

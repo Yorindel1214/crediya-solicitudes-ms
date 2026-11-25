@@ -1,6 +1,14 @@
 // Endpoint de la historia de usuario 2 (API_BASE viene de comun.js)
 const API_URL = `${API_BASE}/api/v1/solicitud`;
 
+// HU3: solo un CLIENTE con sesión puede pedir préstamos, y solo a su nombre:
+// se precarga el documento que viene en su token (sesion.js)
+requerirSesion(["CLIENTE"]);
+const documentoSesion = datosDelToken().documento;
+if (documentoSesion) {
+  document.getElementById("documento_identidad").value = documentoSesion;
+}
+
 const formulario = document.getElementById("formulario");
 const boton = document.getElementById("botonEnviar");
 const mensaje = document.getElementById("mensaje");
@@ -122,10 +130,15 @@ formulario.addEventListener("submit", async (evento) => {
   try {
     const respuesta = await fetch(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: cabecerasConToken(),
       body: JSON.stringify(leerFormulario()),
     });
     const datos = await respuesta.json().catch(() => ({}));
+
+    if (respuesta.status === 401) {
+      cerrarSesion(); // token vencido o inválido: volver a iniciar sesión
+      return;
+    }
 
     if (respuesta.status === 201) {
       mostrarMensaje("exito", "¡Solicitud enviada!", ` Quedó registrada con el número ${datos.id} y pasa a revisión.`);
@@ -150,6 +163,7 @@ formulario.addEventListener("submit", async (evento) => {
 
 document.getElementById("otraSolicitud").addEventListener("click", () => {
   formulario.reset();
+  if (documentoSesion) document.getElementById("documento_identidad").value = documentoSesion;
   montoAyuda.textContent = "Mayor que $0";
   plazoAyuda.textContent = "Entre 1 y 360 meses";
   mensaje.innerHTML = "";

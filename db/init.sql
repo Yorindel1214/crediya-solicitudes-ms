@@ -24,5 +24,6 @@ CREATE TABLE IF NOT EXISTS solicitudes (
     plazo_meses         INTEGER       NOT NULL,
     id_tipo_prestamo    BIGINT        NOT NULL REFERENCES tipos_prestamo (id),
     estado              VARCHAR(30)   NOT NULL,
-    fecha_creacion      TIMESTAMP     NOT NULL
+    fecha_creacion      TIMESTAMP     NOT NULL,
+    email               VARCHAR(150)              -- HU3: correo del cliente (sale del token)
 );

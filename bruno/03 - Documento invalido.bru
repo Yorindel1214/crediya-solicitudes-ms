@@ -1,13 +1,17 @@
 meta {
   name: 03 - Documento invalido
   type: http
-  seq: 3
+  seq: 6
 }
 
 post {
   url: http://localhost:8081/api/v1/solicitud
   body: json
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{tokenCliente}}
 }
 
 body:json {

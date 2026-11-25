@@ -1,0 +1,33 @@
+meta {
+  name: 00a - Login admin
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/api/v1/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "correo_electronico": "admin@crediya.com",
+    "clave": "Admin12345"
+  }
+}
+
+script:post-response {
+  bru.setVar("tokenAdmin", res.getBody().token);
+}
+
+tests {
+  test("responde 200 OK", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}
+
+docs {
+  Preparación (microservicio de Autenticación, puerto 8080): inicia sesión como administrador
+  para poder crear el cliente de prueba.
+}

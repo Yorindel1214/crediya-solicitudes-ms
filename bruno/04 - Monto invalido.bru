@@ -1,18 +1,22 @@
 meta {
   name: 04 - Monto invalido
   type: http
-  seq: 4
+  seq: 7
 }
 
 post {
   url: http://localhost:8081/api/v1/solicitud
   body: json
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{tokenCliente}}
 }
 
 body:json {
   {
-    "documento_identidad": "1023456789",
+    "documento_identidad": "{{documentoCliente}}",
     "monto": 0,
     "plazo_meses": 24,
     "id_tipo_prestamo": 1

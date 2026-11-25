@@ -26,4 +26,6 @@ public class Solicitud {
     private String nombreTipoPrestamo;
     private EstadoSolicitud estado;
     private LocalDateTime fechaCreacion;
+    // HU3: correo del cliente que inició sesión y creó la solicitud (sale del token)
+    private String email;
 }

@@ -2,6 +2,7 @@ package co.com.crediya.usecase.registrarsolicitud;
 
 import co.com.crediya.model.solicitud.EstadoSolicitud;
 import co.com.crediya.model.solicitud.Solicitud;
+import co.com.crediya.model.solicitud.exceptions.AccesoDenegadoException;
 import co.com.crediya.model.solicitud.exceptions.TipoPrestamoNoExisteException;
 import co.com.crediya.model.solicitud.exceptions.ValidacionException;
 import co.com.crediya.model.solicitud.gateways.SolicitudRepository;
@@ -18,6 +19,8 @@ import java.util.regex.Pattern;
  * 1) valida los datos del cliente y del préstamo,
  * 2) verifica que el tipo de préstamo exista,
  * 3) guarda la solicitud con estado inicial "Pendiente de revisión".
+ * HU3: el cliente solo puede crear solicitudes a su propio nombre
+ * (el documento de la solicitud debe ser el mismo de su sesión).
  */
 @RequiredArgsConstructor
 public class RegistrarSolicitudUseCase {
@@ -28,14 +31,25 @@ public class RegistrarSolicitudUseCase {
     private final SolicitudRepository solicitudRepository;
     private final TipoPrestamoRepository tipoPrestamoRepository;
 
-    public Solicitud execute(Solicitud solicitud) {
+    /**
+     * @param solicitud           datos enviados por el cliente
+     * @param documentoSolicitante documento del cliente que inició sesión (sale del token)
+     * @param correoSolicitante    correo del cliente que inició sesión (sale del token)
+     */
+    public Solicitud execute(Solicitud solicitud, String documentoSolicitante, String correoSolicitante) {
         validar(solicitud);
+
+        String documento = solicitud.getDocumentoIdentidad().trim();
+        if (!documento.equals(documentoSolicitante)) {
+            throw new AccesoDenegadoException("Solo puede crear solicitudes de préstamo a su propio nombre");
+        }
 
         TipoPrestamo tipo = tipoPrestamoRepository.buscarPorId(solicitud.getIdTipoPrestamo())
                 .orElseThrow(() -> new TipoPrestamoNoExisteException(solicitud.getIdTipoPrestamo()));
 
         Solicitud nueva = solicitud.toBuilder()
-                .documentoIdentidad(solicitud.getDocumentoIdentidad().trim())
+                .documentoIdentidad(documento)
+                .email(correoSolicitante)
                 .estado(EstadoSolicitud.PENDIENTE_REVISION)
                 .fechaCreacion(LocalDateTime.now())
                 .build();

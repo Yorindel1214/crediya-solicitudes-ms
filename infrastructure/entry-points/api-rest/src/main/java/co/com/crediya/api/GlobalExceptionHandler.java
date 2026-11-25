@@ -1,5 +1,6 @@
 package co.com.crediya.api;
 
+import co.com.crediya.model.solicitud.exceptions.AccesoDenegadoException;
 import co.com.crediya.model.solicitud.exceptions.TipoPrestamoNoExisteException;
 import co.com.crediya.model.solicitud.exceptions.ValidacionException;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> tipoNoExiste(TipoPrestamoNoExisteException e) {
         log.warn("Tipo de préstamo inválido: {}", e.getMessage());
         return respuesta(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(AccesoDenegadoException.class)
+    public ResponseEntity<Map<String, String>> accesoDenegado(AccesoDenegadoException e) {
+        log.warn("Acceso denegado: {}", e.getMessage());
+        return respuesta(HttpStatus.FORBIDDEN, e.getMessage());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

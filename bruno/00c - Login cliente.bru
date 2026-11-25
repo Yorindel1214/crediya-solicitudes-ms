@@ -1,0 +1,33 @@
+meta {
+  name: 00c - Login cliente
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/api/v1/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "correo_electronico": "{{correoCliente}}",
+    "clave": "Cliente12345"
+  }
+}
+
+script:post-response {
+  bru.setVar("tokenCliente", res.getBody().token);
+}
+
+tests {
+  test("responde 200 con rol CLIENTE", function () {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.getBody().rol).to.equal("CLIENTE");
+  });
+}
+
+docs {
+  Preparación: el cliente inicia sesión y se guarda {{tokenCliente}} para las solicitudes.
+}

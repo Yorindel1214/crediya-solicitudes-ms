@@ -46,4 +46,8 @@ public class SolicitudEntity {
 
     @Column(name = "fecha_creacion", nullable = false)
     private LocalDateTime fechaCreacion;
+
+    /** HU3: correo del cliente que creó la solicitud. Vacío en las solicitudes creadas antes de la HU3. */
+    @Column(length = 150)
+    private String email;
 }

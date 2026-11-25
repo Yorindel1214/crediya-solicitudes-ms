@@ -1,0 +1,38 @@
+meta {
+  name: 06 - Solicitud a nombre de otro
+  type: http
+  seq: 9
+}
+
+post {
+  url: http://localhost:8081/api/v1/solicitud
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{tokenCliente}}
+}
+
+body:json {
+  {
+    "documento_identidad": "1023456789",
+    "monto": 5000000,
+    "plazo_meses": 24,
+    "id_tipo_prestamo": 1
+  }
+}
+
+tests {
+  test("responde 403 Forbidden", function () {
+    expect(res.getStatus()).to.equal(403);
+  });
+
+  test("explica que solo puede pedir a su nombre", function () {
+    expect(res.getBody().error).to.equal("Solo puede crear solicitudes de préstamo a su propio nombre");
+  });
+}
+
+docs {
+  HU3: un cliente solo puede crear solicitudes de préstamo a él mismo. Esperado: 403.
+}

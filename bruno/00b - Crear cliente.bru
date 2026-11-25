@@ -1,0 +1,44 @@
+meta {
+  name: 00b - Crear cliente
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/api/v1/usuarios
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{tokenAdmin}}
+}
+
+body:json {
+  {
+    "nombres": "Carlos",
+    "apellidos": "Cliente",
+    "correo_electronico": "{{correoCliente}}",
+    "documento_identidad": "{{documentoCliente}}",
+    "clave": "Cliente12345",
+    "rol": "CLIENTE",
+    "salario_base": 5000000
+  }
+}
+
+script:pre-request {
+  // Cliente nuevo en cada ejecución
+  const sufijo = String(Date.now()).slice(-10);
+  bru.setVar("correoCliente", "cliente" + sufijo + "@correo.com");
+  bru.setVar("documentoCliente", sufijo);
+}
+
+tests {
+  test("responde 201 Created", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+}
+
+docs {
+  Preparación: el administrador crea un CLIENTE (HU1 + HU3).
+}

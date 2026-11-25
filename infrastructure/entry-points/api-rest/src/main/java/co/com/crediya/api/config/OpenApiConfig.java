@@ -1,18 +1,30 @@
 package co.com.crediya.api.config;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiConfig {
 
+    private static final String ESQUEMA = "bearerAuth";
+
     @Bean
     public OpenAPI crediyaOpenApi() {
-        return new OpenAPI().info(new Info()
-                .title("Crediya - Microservicio de Solicitudes")
-                .description("API para registrar solicitudes de préstamo")
-                .version("1.0.0"));
+        return new OpenAPI()
+                .info(new Info()
+                        .title("Crediya - Microservicio de Solicitudes")
+                        .description("API para registrar solicitudes de préstamo. Requiere el token que entrega "
+                                + "POST /api/v1/login del microservicio de Autenticación (botón Authorize)")
+                        .version("1.1.0"))
+                .components(new Components().addSecuritySchemes(ESQUEMA, new SecurityScheme()
+                        .type(SecurityScheme.Type.HTTP)
+                        .scheme("bearer")
+                        .bearerFormat("JWT")))
+                .addSecurityItem(new SecurityRequirement().addList(ESQUEMA));
     }
 }

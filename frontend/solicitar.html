@@ -25,6 +25,7 @@
         <a class="activo" href="solicitar.html">Solicitar préstamo</a>
         <a href="http://localhost:8000" target="_blank" rel="noopener">Usuarios ↗</a>
       </nav>
+      <span class="sesion-usuario" id="usuarioSesion"></span>
       <span class="estado-api" id="estadoApi">
         <span class="estado-api__punto"></span>
         <span class="estado-api__texto">Verificando API…</span>
@@ -36,7 +37,7 @@
     <a class="volver" href="index.html">← Volver al inicio</a>
 
     <div class="pagina__encabezado">
-      <span class="etiqueta">HU2 · <span class="codigo">POST /api/v1/solicitud</span></span>
+      <span class="etiqueta">HU2 + HU3 · <span class="codigo">POST /api/v1/solicitud</span> · solo CLIENTE, a su nombre</span>
       <h1>Solicitar préstamo</h1>
       <p>Completa tu información y la del préstamo. Todos los campos son obligatorios.</p>
     </div>
@@ -144,6 +145,8 @@
           <ul class="respuestas">
             <li><span class="cod cod--201">201</span>Solicitud registrada</li>
             <li><span class="cod cod--400">400</span>Datos inválidos o tipo de préstamo inexistente</li>
+            <li><span class="cod cod--400">401</span>Sin sesión o token vencido</li>
+            <li><span class="cod cod--400">403</span>No eres cliente o el documento no es el tuyo</li>
           </ul>
         </div>
       </aside>
@@ -158,6 +161,7 @@
   </footer>
 
   <script src="js/comun.js"></script>
+  <script src="js/sesion.js"></script>
   <script src="js/solicitar.js"></script>
 </body>
 </html>

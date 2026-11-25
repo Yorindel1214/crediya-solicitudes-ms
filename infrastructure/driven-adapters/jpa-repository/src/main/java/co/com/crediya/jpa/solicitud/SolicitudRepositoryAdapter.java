@@ -36,7 +36,8 @@ public class SolicitudRepositoryAdapter implements SolicitudRepository {
                 s.getPlazoMeses(),
                 s.getIdTipoPrestamo(),
                 s.getEstado().name(),
-                s.getFechaCreacion());
+                s.getFechaCreacion(),
+                s.getEmail());
     }
 
     private Solicitud aDominio(SolicitudEntity e) {
@@ -48,6 +49,7 @@ public class SolicitudRepositoryAdapter implements SolicitudRepository {
                 .idTipoPrestamo(e.getIdTipoPrestamo())
                 .estado(EstadoSolicitud.valueOf(e.getEstado()))
                 .fechaCreacion(e.getFechaCreacion())
+                .email(e.getEmail())
                 .build();
     }
 }

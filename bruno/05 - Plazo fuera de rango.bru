@@ -1,18 +1,22 @@
 meta {
   name: 05 - Plazo fuera de rango
   type: http
-  seq: 5
+  seq: 8
 }
 
 post {
   url: http://localhost:8081/api/v1/solicitud
   body: json
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{tokenCliente}}
 }
 
 body:json {
   {
-    "documento_identidad": "1023456789",
+    "documento_identidad": "{{documentoCliente}}",
     "monto": 5000000,
     "plazo_meses": 0,
     "id_tipo_prestamo": 2

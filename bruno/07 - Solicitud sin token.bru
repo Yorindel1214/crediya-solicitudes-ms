@@ -1,0 +1,30 @@
+meta {
+  name: 07 - Solicitud sin token
+  type: http
+  seq: 10
+}
+
+post {
+  url: http://localhost:8081/api/v1/solicitud
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "documento_identidad": "1023456789",
+    "monto": 5000000,
+    "plazo_meses": 24,
+    "id_tipo_prestamo": 1
+  }
+}
+
+tests {
+  test("responde 401 Unauthorized", function () {
+    expect(res.getStatus()).to.equal(401);
+  });
+}
+
+docs {
+  HU3: los servicios solo están expuestos a usuarios con sesión iniciada. Esperado: 401.
+}
